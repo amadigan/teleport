@@ -1536,6 +1536,8 @@ func (ssh *SSH) X11ServerConfig() (*x11.ServerConfig, error) {
 		cfg.MaxDisplay = x11.MaxDisplayNumber
 	}
 
+	cfg.XAuthLocation = ssh.X11.XAuthLocation
+
 	return cfg, nil
 }
 
@@ -1724,6 +1726,9 @@ type X11 struct {
 	// MaxDisplay tells the server what X11 display number to stop at when
 	// searching for an open X11 unix socket for XServer proxies.
 	MaxDisplay *uint `yaml:"max_display,omitempty"`
+	// XAuthLocation is the path to the xauth binary. If not set, the server will
+	// use the system's default xauth binary.
+	XAuthLocation string `yaml:"xauth_location,omitempty"`
 }
 
 // Databases represents the database proxy service configuration.

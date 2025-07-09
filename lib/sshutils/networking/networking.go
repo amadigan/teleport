@@ -104,6 +104,9 @@ type X11Request struct {
 	MaxDisplay int
 	// XauthFile is an optional XauthFile to use instead of the default ~/.Xauthority. Used in tests.
 	XauthFile string
+	// XauthPath is the path to the xauth binary. If not set, the server will
+	// use the system's default xauth binary.
+	XauthPath string
 }
 
 // NewProcess starts a new networking process with the given command, which should

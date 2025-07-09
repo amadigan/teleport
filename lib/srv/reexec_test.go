@@ -405,7 +405,7 @@ func testX11Forward(ctx context.Context, t *testing.T, proc *networking.Process,
 	// Check that the xauth entry was stored for the listener's corresponding x11 display
 	// in the user's xauth file.
 	fakeXauthEntry.Display = display
-	xauthCmd := x11.NewXAuthCommand(ctx, xauthTempFilePath)
+	xauthCmd := x11.NewXAuthCommand(ctx, "", xauthTempFilePath)
 	xauthCmd.SysProcAttr = &syscall.SysProcAttr{
 		Setsid:     true,
 		Credential: cred,

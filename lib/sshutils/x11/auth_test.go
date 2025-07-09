@@ -44,7 +44,7 @@ func TestXAuthCommands(t *testing.T) {
 	require.NoError(t, err)
 
 	// New xauth file should have no entries
-	xauth := NewXAuthCommand(ctx, xauthFile)
+	xauth := NewXAuthCommand(ctx, "", xauthFile)
 	xauthEntry, err := xauth.ReadEntry(display)
 	require.Error(t, err)
 	require.True(t, trace.IsNotFound(err))
@@ -53,22 +53,22 @@ func TestXAuthCommands(t *testing.T) {
 	// Add trusted xauth entry
 	trustedXauthEntry, err := NewFakeXAuthEntry(display)
 	require.NoError(t, err)
-	xauth = NewXAuthCommand(ctx, xauthFile)
+	xauth = NewXAuthCommand(ctx, "", xauthFile)
 	err = xauth.AddEntry(*trustedXauthEntry)
 	require.NoError(t, err)
 
 	// Read back the xauth entry
-	xauth = NewXAuthCommand(ctx, xauthFile)
+	xauth = NewXAuthCommand(ctx, "", xauthFile)
 	xauthEntry, err = xauth.ReadEntry(display)
 	require.NoError(t, err)
 	require.Equal(t, trustedXauthEntry, xauthEntry)
 
 	// Remove xauth entries
-	xauth = NewXAuthCommand(ctx, xauthFile)
+	xauth = NewXAuthCommand(ctx, "", xauthFile)
 	err = xauth.RemoveEntries(xauthEntry.Display)
 	require.NoError(t, err)
 
-	xauth = NewXAuthCommand(ctx, xauthFile)
+	xauth = NewXAuthCommand(ctx, "", xauthFile)
 	xauthEntry, err = xauth.ReadEntry(display)
 	require.Error(t, err)
 	require.True(t, trace.IsNotFound(err))
@@ -82,11 +82,11 @@ func TestXAuthCommands(t *testing.T) {
 	if trace.IsBadParameter(err) {
 		t.Skip("skipping xauth generate test, DISPLAY isn't set")
 	}
-	xauth = NewXAuthCommand(ctx, xauthFile)
+	xauth = NewXAuthCommand(ctx, "", xauthFile)
 	err = xauth.GenerateUntrustedCookie(localDisplay, 0)
 	require.NoError(t, err)
 
-	xauth = NewXAuthCommand(ctx, xauthFile)
+	xauth = NewXAuthCommand(ctx, "", xauthFile)
 	xauthEntry, err = xauth.ReadEntry(localDisplay)
 	require.NoError(t, err)
 	require.NotNil(t, xauthEntry)

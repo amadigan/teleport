@@ -468,6 +468,7 @@ func TestSessionAuditLog(t *testing.T) {
 		Enabled:       true,
 		DisplayOffset: x11.DefaultDisplayOffset,
 		MaxDisplay:    x11.DefaultMaxDisplays,
+		XAuthLocation: "/usr/bin/true", // use a command that always succeeds
 	}
 
 	// Allow x11, agent, and port forwarding for the user.

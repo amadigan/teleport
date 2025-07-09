@@ -183,6 +183,15 @@ func TestOptions(t *testing.T) {
 			inOptions:   []string{"ForwardX11Timeout 1.5"},
 			assertError: require.Error,
 		},
+		// XAuthLocation tests
+		{
+			desc:        "XAuthLocation",
+			inOptions:   []string{"XAuthLocation /usr/bin/xauth"},
+			assertError: require.NoError,
+			assertOptions: func(t *testing.T, opts Options) {
+				require.Equal(t, "/usr/bin/xauth", opts.XAuthLocation)
+			},
+		},
 	}
 
 	for _, tt := range tests {

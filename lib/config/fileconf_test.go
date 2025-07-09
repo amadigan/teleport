@@ -1202,6 +1202,22 @@ func TestX11Config(t *testing.T) {
 				require.True(t, trace.IsBadParameter(err), "got err = %v, want BadParameter", err)
 			},
 		},
+		// Test xauth location
+		{
+			desc: "xauth location set",
+			mutate: func(cfg cfgMap) {
+				cfg["ssh_service"].(cfgMap)["x11"] = cfgMap{
+					"enabled":        "yes",
+					"xauth_location": "/opt/X11/bin/xauth",
+				}
+			},
+			expectX11Config: &x11.ServerConfig{
+				Enabled:       true,
+				DisplayOffset: x11.DefaultDisplayOffset,
+				MaxDisplay:    x11.DefaultDisplayOffset + x11.DefaultMaxDisplays,
+				XAuthLocation: "/opt/X11/bin/xauth",
+			},
+		},
 	}
 
 	for _, tc := range testCases {

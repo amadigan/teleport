@@ -117,7 +117,7 @@ var supportedOptions = map[string]setOption{
 	"UserKnownHostsFile":               nil,
 	"VerifyHostKeyDNS":                 nil,
 	"VisualHostKey":                    nil,
-	"XAuthLocation":                    nil,
+	"XAuthLocation":                    setXAuthLocationOption,
 }
 
 // Options holds parsed values of OpenSSH options.
@@ -157,6 +157,10 @@ type Options struct {
 	// ForwardX11Timeout specifies a timeout in seconds after which X11 forwarding
 	// attempts will be rejected when in untrusted forwarding mode.
 	ForwardX11Timeout time.Duration
+
+	// XAuthLocation is the path to the xauth binary. If not set, the server will
+	// use the system's default xauth binary.
+	XAuthLocation string
 
 	// SendEnvVariables is a list of local environment variables to send to remote host.
 	SendEnvVariables []string
@@ -241,6 +245,11 @@ func setStrictHostKeyCheckingOption(o *Options, val string) error {
 		return trace.Wrap(err)
 	}
 	o.StrictHostKeyChecking = parsedValue
+	return nil
+}
+
+func setXAuthLocationOption(o *Options, val string) error {
+	o.XAuthLocation = val
 	return nil
 }
 

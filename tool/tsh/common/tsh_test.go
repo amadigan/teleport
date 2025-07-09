@@ -3745,6 +3745,14 @@ func TestSetX11Config(t *testing.T) {
 				X11ForwardingTimeout: time.Minute * 2,
 			},
 		},
+		{
+			desc:        "XAuthLocation",
+			opts:        []string{"XAuthLocation=/usr/bin/xauth"},
+			assertError: require.NoError,
+			expectConfig: client.Config{
+				XAuthLocation: "/usr/bin/xauth",
+			},
+		},
 	} {
 		t.Run(tc.desc, func(t *testing.T) {
 			for k, v := range tc.envMap {
