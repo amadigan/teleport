@@ -270,6 +270,10 @@ type Config struct {
 	// X11ForwardingTrusted specifies the X11 forwarding security mode.
 	X11ForwardingTrusted bool
 
+	// XAuthLocation is the path to the xauth binary. If not set, the server will
+	// use the system's default xauth binary.
+	XAuthLocation string
+
 	// AuthMethods are used to login into the cluster. If specified, the client will
 	// use them in addition to certs stored in the client store.
 	AuthMethods []ssh.AuthMethod

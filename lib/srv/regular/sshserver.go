@@ -1925,7 +1925,7 @@ func (s *Server) handleX11Forward(ctx context.Context, ch ssh.Channel, req *ssh.
 	}()
 
 	// check if X11 forwarding is disabled, or if xauth can't be handled.
-	if !s.x11.Enabled || x11.CheckXAuthPath() != nil {
+	if !s.x11.Enabled || x11.CheckXAuthPath(s.x11.XAuthLocation) != nil {
 		return trace.AccessDenied("X11 forwarding is not enabled")
 	}
 
@@ -1948,6 +1948,7 @@ func (s *Server) handleX11Forward(ctx context.Context, ch ssh.Channel, req *ssh.
 		ForwardRequestPayload: x11Req,
 		DisplayOffset:         s.x11.DisplayOffset,
 		MaxDisplay:            s.x11.MaxDisplay,
+		XauthPath:             s.x11.XAuthLocation,
 	})
 	if err != nil {
 		return trace.Wrap(err)

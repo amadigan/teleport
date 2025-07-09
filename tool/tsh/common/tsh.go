@@ -4957,6 +4957,8 @@ func setX11Config(c *client.Config, cf *CLIConf, o Options) error {
 		c.X11ForwardingTimeout = cf.X11ForwardingTimeout
 	}
 
+	c.XAuthLocation = o.XAuthLocation
+
 	return nil
 }
 

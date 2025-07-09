@@ -118,4 +118,7 @@ type ServerConfig struct {
 	// MaxDisplay tells the server what X11 display number to stop at when
 	// searching for an open X11 unix socket for XServer proxies.
 	MaxDisplay int
+	// XAuthLocation is the path to the xauth binary. If not set, the server will
+	// use the system's default xauth binary.
+	XAuthLocation string
 }

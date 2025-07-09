@@ -95,12 +95,15 @@ type XAuthCommand struct {
 
 // NewXAuthCommand reate a new "xauth" command. xauthFile can be
 // optionally provided to run the xauth command against a specific xauth file.
-func NewXAuthCommand(ctx context.Context, xauthFile string) *XAuthCommand {
+func NewXAuthCommand(ctx context.Context, xauthPath string, xauthFile string) *XAuthCommand {
 	var args []string
 	if xauthFile != "" {
 		args = []string{"-f", xauthFile}
 	}
-	return &XAuthCommand{exec.CommandContext(ctx, "xauth", args...)}
+	if xauthPath == "" {
+		xauthPath = "xauth"
+	}
+	return &XAuthCommand{exec.CommandContext(ctx, xauthPath, args...)}
 }
 
 // ReadEntry runs "xauth list" to read the first xauth entry for the given display.
@@ -195,8 +198,11 @@ func (x *XAuthCommand) output() ([]byte, error) {
 }
 
 // CheckXAuthPath checks if xauth is runnable in the current environment.
-func CheckXAuthPath() error {
-	_, err := exec.LookPath("xauth")
+func CheckXAuthPath(xauthPath string) error {
+	if xauthPath == "" {
+		xauthPath = "xauth"
+	}
+	_, err := exec.LookPath(xauthPath)
 	return trace.Wrap(err)
 }
 
